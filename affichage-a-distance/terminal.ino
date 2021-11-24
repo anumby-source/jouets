@@ -1,7 +1,7 @@
 #include <WiFi.h>
 #include <ArduinoOTA.h>
 #include <fabgl.h>
-// #include <Pangodream_18650_CL.h>
+#include <Pangodream_18650_CL.h>
 #include <WiFiManager.h>         // https://github.com/tzapu/WiFiManager
 /*
  * Conf:
@@ -25,7 +25,7 @@ fabgl::VGATextController DisplayController;
 //fabgl::VGA8Controller DisplayController;
 fabgl::Terminal          Terminal;
 
-// Pangodream_18650_CL BL(35, 1.75, 20);
+ Pangodream_18650_CL BL(35, 1.75, 20);
 
 void confOTA() {
   // Port 8266 (d�faut)
@@ -130,9 +130,9 @@ void printinfo()
   Terminal.printf("\e[92mFree 32 bit Memory     :\e[93m %d\r\n", heap_caps_get_free_size(MALLOC_CAP_32BIT));
   Terminal.printf("\e[92m----\r\n");
   Terminal.printf("\e[92mValue from pin 35      :\e[93m %d\r\n", analogRead(35));
- // Terminal.printf("\e[92mAverage value from pin :\e[93m %d\r\n", BL.pinRead());
-//  Terminal.printf("\e[92mVolts                  :\e[93m %f\r\n", BL.getBatteryVolts());
-//  Terminal.printf("\e[92mCharge level           :\e[93m %d%%\r\n", BL.getBatteryChargeLevel());
+ Terminal.printf("\e[92mAverage value from pin :\e[93m %d\r\n", BL.pinRead());
+  Terminal.printf("\e[92mVolts                  :\e[93m %f\r\n", BL.getBatteryVolts());
+  Terminal.printf("\e[92mCharge level           :\e[93m %d%%\r\n", BL.getBatteryChargeLevel());
   Terminal.printf("\e[92m----\r\n");
   Terminal.printf("\e[92mMAC address            :\e[93m %s%\r\n", WiFi.macAddress().c_str());
   if (WiFi.status() == WL_CONNECTED) {
