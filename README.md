@@ -1,8 +1,6 @@
 # arnaud-rco
 
-[repair café orsay](https://www.repaircafe-orsay.org/category/blog/ateliers-numeriques-blog/)
-
-[wiki](https://github.com/anumby-source/jouets/wiki)
+[Wiki](https://github.com/anumby-source/jouets/wiki) du [Repair Café d'Orsay](https://www.repaircafe-orsay.org/category/blog/ateliers-numeriques-blog/)
 
 Ateliers numérique Repair Café d'Orsay en collaboration avec Anumby
 
