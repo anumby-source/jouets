@@ -1,6 +1,6 @@
 # arnaud-rco
 
-[Github](https://github.com/arnaudrco) du [Repair Café d'Orsay](https://www.repaircafe-orsay.org/category/blog/ateliers-numeriques-blog/)
+[Github](https://github.com/arnaudrco) Ateliers Numériques [Repair Café d'Orsay](https://www.repaircafe-orsay.org/category/blog/ateliers-numeriques-blog/)
 
 Ateliers numérique Repair Café d'Orsay en collaboration avec Anumby
 
