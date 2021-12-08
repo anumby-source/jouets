@@ -29,7 +29,7 @@ const long intervalLampe = 2000;
 
 class moteur {
 private:
-  int moteur_droit=0,moteur_gauche=0; // vitesse moteur
+  int moteur_droit,moteur_gauche; // vitesse moteur
 public:
   void start(void);
   void stop(void);
@@ -117,6 +117,7 @@ void bip(){ // test moteur
 void loop()
 { // temporisation de 2s pour moteur
 //  analogWrite(SpeedA, 0); analogWrite(SpeedB, 0);
+int vvv;
   mmm.stop();
   int ddd = delta();
   mmm.start();
@@ -125,35 +126,32 @@ void loop()
     if(dir!= AVANT){ 
       Serial.println(ddd);Serial.println("tout droit");
       dir=AVANT; tempoLampe=currentMillis;
- //          digitalWrite(PinA, LOW);digitalWrite(PinB, LOW); analogWrite(SpeedA, AA);analogWrite(SpeedB, AA);
     }
       if ( ddd > 0 ) {
-                  // digitalWrite(PinA, LOW);digitalWrite(PinB, LOW); 
-                  // set_speed(  map(ddd, 0, sensibilite, AA, 0), AA );
-                  mmm.init(map(ddd, 0, sensibilite, AA,0),AA,dir);
+
+                  vvv= map(ddd, 0, sensibilite, AA,0);
+                  mmm.init(vvv,AA,dir);
     } else if (ddd < 0) {
            digitalWrite(PinA, LOW);digitalWrite(PinB, LOW); 
-                             // set_speed(  AA, map(ddd, 0, sensibilite, AA,0) );
-                               mmm.init(AA,map(ddd, 0, sensibilite, AA,0),dir);
-               // digitalWrite(PinA, LOW);digitalWrite(PinB, HIGH); analogWrite(SpeedA, AA); digitalWrite(SpeedB, AA);
+                             vvv= map(-ddd, 0, sensibilite, AA,0);
+                               mmm.init(AA,vvv,dir);
     }
   } else { 
+    ddd = ddd / 2; 
+    if ( ddd > sensibilite ) ddd = sensibilite;
+    if ( ddd < -sensibilite ) ddd = -sensibilite;
     if ( ddd > 0 ) {
+      vvv= map(ddd, 0, sensibilite, 0,AA);
       if(dir!= GAUCHE){ 
       Serial.print(ddd);Serial.println("on tourne à gauche");
-      dir=GAUCHE; tempoLampe=currentMillis;  // patinage();
-                  // digitalWrite(PinA, LOW);digitalWrite(PinB, LOW); set_speed(0,AA);
-                  // digitalWrite(PinA, HIGH);digitalWrite(PinB, LOW); set_speed(AA,AA);
-                             mmm.init(AA,AA,dir);
-    }
+      dir= GAUCHE; tempoLampe=currentMillis;  
+    }  mmm.init(AA,vvv,dir);
   }   else if (ddd < 0) {
+    vvv= map(-ddd, 0, sensibilite, 0,AA);
     if(dir!= DROITE){ 
      Serial.print(ddd);Serial.println("on tourne à droite");
-         dir=DROITE; tempoLampe=currentMillis;  // patinage();
-         // digitalWrite(PinA, LOW);digitalWrite(PinB, LOW); set_speed(AA,0);
-           //     digitalWrite(PinA, LOW);digitalWrite(PinB, HIGH); set_speed(AA,AA);
-           mmm.init(AA,AA,dir);
-    }
+         dir=DROITE; tempoLampe=currentMillis;  
+    } mmm.init(vvv,AA,dir);
   } 
   }
      if(currentMillis - tempoLampe > intervalLampe) {
@@ -161,4 +159,7 @@ void loop()
             mmm.stop();
    } 
   delay(10);
+  Serial.print(" ");
+  Serial.print(vvv);
+    Serial.print(" ");
 }
