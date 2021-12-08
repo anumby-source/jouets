@@ -53,7 +53,7 @@ void moteur::init(int v1, int v2, int dir) {
             digitalWrite(PinA, LOW);digitalWrite(PinB, HIGH);
     break;
         case GAUCHE:
-            digitalWrite(PinA, HIGH);digitalWrite(PinB, LOW);
+            digitalWrite(PinA, HIGH);digitalWrite(PinB,LOW );
     break;
         case ARRIERE:
             digitalWrite(PinA, HIGH);digitalWrite(PinB, HIGH);
@@ -145,13 +145,17 @@ int vvv;
       if(dir!= GAUCHE){ 
       Serial.print(ddd);Serial.println("on tourne à gauche");
       dir= GAUCHE; tempoLampe=currentMillis;  
-    }  mmm.init(AA,vvv,dir);
+    }  
+    // mmm.init(AA,vvv,dir);
+       mmm.init(AA,AA,dir);
   }   else if (ddd < 0) {
     vvv= map(-ddd, 0, sensibilite, 0,AA);
     if(dir!= DROITE){ 
      Serial.print(ddd);Serial.println("on tourne à droite");
          dir=DROITE; tempoLampe=currentMillis;  
-    } mmm.init(vvv,AA,dir);
+    } 
+    // mmm.init(vvv,AA,dir);
+       mmm.init(AA,AA,dir);
   } 
   }
      if(currentMillis - tempoLampe > intervalLampe) {
