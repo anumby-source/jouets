@@ -10,6 +10,8 @@ Jeux sous arduino : Jacadi a dit dans une boite de bonbons,je dessine avec un 
 
 Jeux sur [raspberry pico](https://github.com/anumby-source/raspberry-pico)
 
+[réaliser une voiture guidée par une bande blanche avec une cellule solaire et 2 leds](https://github.com/anumby-source/jouets/blob/main/voiture-eclairee/read-me-voiture-%C3%A9clair%C3%A9e.pdf)
+
 ![image](https://github.com/anumby-source/jouets/blob/main/jacadi.PNG)
 
 
