@@ -16,3 +16,8 @@ Derniers ajouts : Jeux sur [raspberry pico](https://github.com/anumby-source/ras
 ![image](https://github.com/anumby-source/jouets/blob/main/jacadi.PNG)
 
 
+
+
+
+            de-acceleromètre.mp4
+          
