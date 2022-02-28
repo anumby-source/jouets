@@ -21,6 +21,8 @@ amusez vous avec cette voiture qui éclaire sa route
 
 ou développez votre propre voiture sur [developpement-voiture](https://github.com/anumby-source/developpement-voiture)
 
+ou testez des composants sur [exemples-amusants](https://github.com/arnaudrco/exemples)
+
 https://user-images.githubusercontent.com/90700891/155972990-3fcc0759-e667-4ba5-8fa0-d8b8dc1bf1c6.mp4
 
 
