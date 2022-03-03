@@ -14,18 +14,18 @@ Derniers ajouts : Jeux sur [raspberry pico](https://github.com/anumby-source/ras
 
 ![image](https://github.com/anumby-source/jouets/blob/main/jacadi.PNG)
 
-amusez vous avec cette voiture qui éclaire sa route 
+Dans ce  [répertoire](https://github.com/anumby-source/jouets/tree/main), les archives des montages sans soudure sur un arduino nano sur une breadboard (board) en branchant un afficheur et un capteur (xxx-xxx). [board_9163_9960](https://github.com/anumby-source/jouets/tree/main/board_9163_9960) utilise un afficheur ili9163 et un capteur adps9960, en reliant directement l'afficheur en respectant les pins modifiables dans le code 
 
-![voiture-eclairee](https://github.com/anumby-source/jouets/blob/main/voiture-eclairee/avec-papier-blanc.gif)
-
-ou développez votre propre voiture sur [developpement-voiture](https://github.com/anumby-source/developpement-voiture)
-
-ou testez des composants sur [exemples-amusants](https://github.com/arnaudrco/exemples)
+#define PIN_BL 3
+#define SCL   4
+#define SDA   5
+#define RS   6
+#define RST    7
+#define CS 8
+#define PIN_GND 9
+#define PIN_VCC 10
 
 https://user-images.githubusercontent.com/90700891/155972990-3fcc0759-e667-4ba5-8fa0-d8b8dc1bf1c6.mp4
-
-
-Archives : des montages sans soudure sur un arduino nano sur une breadboard (board) en branchant un afficheur et un capteur (xxx-xxx)
 
 La progression par 5 niveaux des [exemples-de-montages](https://github.com/arnaudrco/exemples/wiki) est importante pour aborder des projets de plus en plus ambitieux. Compléter votre boite à outils avec des [Capteurs](https://github.com/arnaudrco/exemples/wiki/Capteurs), des [Afficheurs](https://github.com/arnaudrco/exemples/wiki/Les-afficheurs) en utilisant des [Instruments de mesure](https://github.com/arnaudrco/exemples/wiki/G%C3%A9n%C3%A9rateurs-et-mesures). Regarder les [Videos](https://github.com/arnaudrco/visio/wiki/Video) et montez vos propres projets pour refaire les jeux du festival [festisol](https://github.com/arnaudrco/festisol/wiki) et commencer à utiliser les nouveaux [raspberry-pico](https://github.com/anumby-source/raspberry-pico/wiki). Voulez-vous nous aider à développer d'autres applications ? Commencez un peu de code [CROUS-micro-python](https://github.com/arnaudrco/CROUS-micro-python/wiki), participez au [developpement-voiture](https://github.com/anumby-source/developpement-voiture/wiki) ou pour construire des [jouets](https://github.com/anumby-source/jouets/wiki) Anumby
           
