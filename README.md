@@ -14,9 +14,7 @@ Derniers ajouts : Jeux sur [raspberry pico](https://github.com/anumby-source/ras
 
 ![image](https://github.com/anumby-source/jouets/blob/main/jacadi.PNG)
 
-Dans ce  [répertoire](https://github.com/anumby-source/jouets/tree/main), les archives des montages sans soudure sur un arduino nano sur une breadboard (board) en branchant un afficheur et un capteur (xxx-xxx). [board_9163_9960](https://github.com/anumby-source/jouets/tree/main/board_9163_9960) utilise un afficheur ili9163 et un capteur adps9960, en reliant directement l'afficheur en respectant les pins modifiables dans le code 
-
-#define PIN_BL 3
+Dans ce  [répertoire](https://github.com/anumby-source/jouets/tree/main), les archives des montages sans soudure sur un arduino nano sur une breadboard (board) en branchant un afficheur et un capteur (xxx-xxx). [board_9163_9960](https://github.com/anumby-source/jouets/tree/main/board_9163_9960) utilise un afficheur ili9163 et un capteur adps9960, en reliant directement l'afficheur en respectant les pins modifiables dans le code : #define PIN_BL 3
 #define SCL   4
 #define SDA   5
 #define RS   6
