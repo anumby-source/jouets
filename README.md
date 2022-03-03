@@ -12,6 +12,7 @@ Jeux sous arduino : Jacadi a dit dans une boite de bonbons,je dessine avec un 
 
 Derniers ajouts : Jeux sur [raspberry pico](https://github.com/anumby-source/raspberry-pico) ou [réaliser une voiture guidée par une bande blanche avec une cellule solaire et 2 leds](https://github.com/anumby-source/jouets/blob/main/voiture-eclairee/read-me-voiture-%C3%A9clair%C3%A9e.pdf) ou [réaliser un affichage à distance avec un vieil écran VGA](https://github.com/anumby-source/jouets/blob/main/affichage-a-distance/read-me-affichage.pdf)
 
+Archives : des montages sans soudure sur un arduino nano sur une breadboard (board-xxx-xxx) en branchant un afficheur et un capteur
 
 ![image](https://github.com/anumby-source/jouets/blob/main/jacadi.PNG)
 
