@@ -33,7 +33,8 @@ int duration[] = {100, 100, 100, 300, 100, 300};
 /* {6, 7, 8, 11} echangé 
 boolean button[] = {6, 7, 8, 11}; //The four button input pins
 boolean ledpin[] = {2, 3, 4, 5} ;  */
-int button[] = {6, 7, 8, 9}; //The four button input pins
+int button[] = {6, 7, 8,9}; //The four button input pins
+int ledpin[] = {2,3, 4,5} ;
 int turn = 0;  // turn counter
 int buttonstate = 0;  // button state checker
 int randomArray[100]; //Intentionally long to store up to 100 inputs (doubtful anyone will get this far)
@@ -60,13 +61,18 @@ void setup()
 {
       pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
       pixels.setPixelColor(0, pixels.Color(0, 0, 0));
+      neo(0);delay(500);
+      neo(2);delay(500);
+      neo(3);delay(500);
+     neo(NOIR);delay(500); 
              
   Serial.begin(112500);
   speakerpin.begin(A4); // speaker is on pin 11
         Serial.println("Simon 3 LEDs");
   for(int x=0; x<NBLED; x++)  // LED pins are outputs
   {
-          Serial.println(x);
+    pinMode(ledpin[x], OUTPUT);
+          Serial.println(ledpin[x]);
   }
   for(int x=0; x<NBLED; x++) 
   {
@@ -108,6 +114,10 @@ void loop()
   for (int y=0; y<=99; y++)
   {
     //function for generating the array to be matched by the player
+    digitalWrite(ledpin[0], HIGH);
+    digitalWrite(ledpin[1], HIGH);
+    digitalWrite(ledpin[2], HIGH);
+    digitalWrite(ledpin[3], HIGH);
    neo(BLANC);
     for (int thisNote = 0; thisNote < 6; thisNote ++) {
      // play the next note:
@@ -119,6 +129,10 @@ void loop()
      delay(25);
     }
      neo(NOIR);
+    digitalWrite(ledpin[0], LOW);
+    digitalWrite(ledpin[1], LOW);
+    digitalWrite(ledpin[2], LOW);
+    digitalWrite(ledpin[3], LOW);
     delay(1000);
   
     for (int y=turn; y <= turn; y++)
@@ -134,7 +148,7 @@ void loop()
       
         for(int y=0; y<NBLED; y++)
         {
-   //       if (randomArray[x] == 1 && (y == 0) )
+          if (randomArray[x] == 1 && ledpin[y] == ledpin[0]) 
           {  //if statements to display the stored values in the array
             neo(0); //digitalWrite(ledpin[y], HIGH);
             speakerpin.play(NOTE_G3, 100);
@@ -143,7 +157,7 @@ void loop()
             delay(100);
           }
 
-          if (randomArray[x] == 2 && (y == 1) )
+          if (randomArray[x] == 2 && ledpin[y] == ledpin[1]) 
           {
             neo(1);//digitalWrite(ledpin[y], HIGH);
             speakerpin.play(NOTE_A3, 100);
@@ -152,7 +166,7 @@ void loop()
             delay(100);
           }
   
-          if (randomArray[x] == 3 && (y == 2) ) 
+          if (randomArray[x] == 3 && ledpin[y] == ledpin[2]) 
           {
             neo(2);//digitalWrite(ledpin[y], HIGH);
             speakerpin.play(NOTE_B3, 100);
@@ -161,7 +175,7 @@ void loop()
             delay(100);
           }
 
-          if (randomArray[x] == 4 && (y == 3) )
+          if (randomArray[x] == 4 && ledpin[y] == ledpin[3]) 
           {
             neo(3);//digitalWrite(ledpin[y], HIGH);
             speakerpin.play(NOTE_C4, 100);
@@ -258,8 +272,16 @@ void fail() { //Function used if the player fails to match the sequence
   for (int y=0; y<=2; y++)
   { //Flashes lights for failure
     neo(BLANC);
+    digitalWrite(ledpin[0], HIGH);
+    digitalWrite(ledpin[1], HIGH);
+    digitalWrite(ledpin[2], HIGH);
+    digitalWrite(ledpin[3], HIGH);
     speakerpin.play(NOTE_G3, 300);
     delay(200);
+    digitalWrite(ledpin[0], LOW);
+    digitalWrite(ledpin[1], LOW);
+    digitalWrite(ledpin[2], LOW);
+    digitalWrite(ledpin[3], LOW);
     neo(NOIR);
     speakerpin.play(NOTE_C3, 300);
     delay(200);
