@@ -1,0 +1,155 @@
+L = (ring chord(:C3, :major), chord(:G3, :major),  chord(:A3, :minor), 
+          chord(:E3, :major), chord(:F3, :major),chord(:C3, :major), 
+          chord(:F3, :major), chord(:G3, :major))
+G =  (ring scale(:C3, :major), scale(:G3, :major),  scale(:A3, :minor), 
+           scale(:E3, :major), scale(:F3, :major),scale(:C3, :major), 
+           scale(:F3, :major), scale(:G3, :major))
+N = 8 # nombre d'accords dans la grille
+
+S = (ring "zawa", "prophet", "supersaw", "tb303", "pretty_bell")
+
+i = 0 # accord courant ( de 0 à N-1 )
+ni = 0 # nombre de boucles complètes effectuées
+syntheCourant = choose(S)
+
+# tempo
+tempo  = 1.0
+
+define :arpege do |accord, n, synth|
+  use_synth synth
+  n.times do
+    12.times do
+      play choose(accord), release: 0.3, cutoff: rrand(60, 120), amp: 0.5
+      sleep tempo/8
+    end
+  end
+end
+
+define :melodie do |accord, n|
+  n.times do
+    T = [tempo/2, 3*tempo/4, tempo/4]
+    T = shuffle T
+    j = 0
+    3.times do
+      play choose(accord), release: 0.7, cutoff: rrand(60, 90), amp: 2, pitch: 12
+      sleep T[j]
+      j = j+1
+    end
+  end
+end
+
+define :melodie_2 do |accord, n|
+  use_synth syntheCourant
+  n.times do
+    T2 = [3*tempo/4, tempo/2, tempo/4]
+    T2 = shuffle T2
+    j2 = 0
+    3.times do
+      play choose(accord), release: 0.5, cutoff: rrand(60, 100), amp: 2, pitch: 12
+      sleep T2[j2]
+      j2 = j2+1
+    end
+  end
+end
+
+define :melodie_gamme do |gamme, n|
+  use_synth syntheCourant
+  d = tempo/8
+  sleep 4*d
+  n.times do
+    play_pattern_timed gamme, d, release: 1.0 , pitch: 12
+  end
+end
+
+in_thread(name:  :boucle) do
+  rapide = 0
+  loop do
+    with_fx :reverb do
+      arpege L[i], 1, S[i]
+      i = i+1
+      if i%N == 0 then
+        ni = ni + 1
+        if ni%3 == 0 || rapide==1 then
+          syntheCourant = choose(S)
+          tempo = 0.5
+          rapide = 1 - rapide
+        elsif ni%7 == 0 then
+          tempo = 2.0
+        else
+          tempo = 1.0
+        end
+      end
+      cue :tick
+    end
+  end
+end
+
+in_thread(name:  :air) do
+  use_synth :dsaw
+  loop do
+    with_fx :reverb do
+      sync :tick
+      melodie L[i], 1
+    end
+  end
+end
+
+in_thread(name:  :air_2) do
+  use_synth :pretty_bell
+  loop do
+    with_fx :reverb do
+      sync :tick
+      if (ni+1)%6 == 0
+        melodie_gamme G[i], 1
+      elsif ni > 2
+        melodie_2 L[i], 1
+      end
+    end
+  end
+end
+
+in_thread(name:  :basse) do
+  use_synth :hoover
+  T2 = [3*tempo/4, tempo/2, tempo/4]
+  loop do
+    with_fx :reverb do
+      sync :tick
+      if ni > 4 then
+        shuffle T2
+        j2 = 0
+        3.times do
+          play L[i][0], pitch: 12, amp: 0.5
+          sleep T2[j2]
+          j2 = j2+1
+        end
+      elsif ni > 1 then
+        play L[i][0], pitch: 12, amp: 0.5
+      end
+    end
+  end
+end
+
+in_thread(name:  :mer) do
+  loop do
+    sync :tick
+    if ni%N > 4 and ni%N < 6 then 
+        with_fx :reverb, mix: 0.5 do 
+          s = synth [:bnoise, :cnoise, :gnoise].choose, amp: rrand(0.5, 1.5), attack: rrand(0, 4), sustain: rrand(0, 2), release: rrand(1, 5), cutoff_slide: rrand(0, 5), cutoff: rrand(60, 100), pan: rrand(-1, 1), pan_slide: rrand(1, 5), amp: rrand(0.5, 1) 
+          control s, pan: rrand(-1, 1), cutoff: rrand(60, 110) sleep rrand(2, 4) 
+        end 
+    end 
+  end 
+end 
+
+in_thread(name: :percu) do
+  loop do 
+    with_fx :echo, phase: 0.125, mix: 0.4 do 
+       sync :tick 
+       if ni>3 then
+          sample :bd_tek
+          sample  :drum_cymbal_soft, sustain: 0, release: tempo/3
+       end
+      sleep tempo/2
+    end
+  end
+end
