@@ -1,3 +1,8 @@
+// arnaudrco affichage sur un écran OLED
+// SDA D3 
+// SCL D4
+
+
 #include <espnow.h>// https://github.com/esp8266/Arduino/blob/master/tools/sdk/include/espnow.h
 #include <ESP8266WiFi.h>
 
