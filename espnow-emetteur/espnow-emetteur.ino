@@ -1,3 +1,5 @@
+// arnaudrco mettre à jour l'adresse MAC 
+
 #include <espnow.h>//https://github.com/esp8266/Arduino/blob/master/tools/sdk/include/espnow.h
 #include <ESP8266WiFi.h>
 
@@ -48,7 +50,7 @@ void loop() {
         strcpy(myData.a, "data type char");
         myData.b = random(1, 20);
         myData.c = 1.2;
-        myData.d = "hello";
+        myData.d = "anumby";
         myData.e = false;
         // Send message via ESP-NOW
         uint8_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
