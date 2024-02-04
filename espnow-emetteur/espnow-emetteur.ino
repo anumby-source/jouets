@@ -1,4 +1,4 @@
-// arnaudrco mettre à jour l'adresse MAC 
+// arnaudrco mettre à jour l'adresse MAC broadcastAddress
 
 #include <espnow.h>//https://github.com/esp8266/Arduino/blob/master/tools/sdk/include/espnow.h
 #include <ESP8266WiFi.h>
