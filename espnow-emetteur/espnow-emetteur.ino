@@ -1,12 +1,18 @@
 // arnaudrco mettre à jour l'adresse MAC broadcastAddress
 
+// version avec LED blink
+
 #include <espnow.h>//https://github.com/esp8266/Arduino/blob/master/tools/sdk/include/espnow.h
 #include <ESP8266WiFi.h>
 
 // A8:48:FA:DD:27:6D
 
+// b'X\x8c\x81\x92\xb8\xb8'
 
-uint8_t broadcastAddress[] = {0xA8, 0x48, 0xFA, 0xDD , 0x27, 0x6D};// REPLACE WITH RECEIVER MAC ADDRESS
+
+//uint8_t broadcastAddress[] = {0xA8, 0x48, 0xFA, 0xDD , 0x27, 0x6D};// REPLACE WITH RECEIVER MAC ADDRESS
+uint8_t broadcastAddress[] = { 0x58, 0x8c, 0x81, 0x92 , 0xb8, 0xb8};// REPLACE WITH RECEIVER MAC ADDRESS
+
 // Structure example to send data
 // Must match the receiver structure
 typedef struct struct_message {
@@ -28,6 +34,7 @@ void OnDataSent(uint8_t *mac_addr, uint8_t status) {
 void setup() {
  // Init Serial Monitor
  Serial.begin(115200);
+ pinMode(BUILTIN_LED, OUTPUT); digitalWrite(BUILTIN_LED, HIGH);
  // Set device as a Wi-Fi Station
  WiFi.mode(WIFI_STA);
  // Init ESP-NOW
@@ -56,9 +63,14 @@ void loop() {
         uint8_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
         if (result == 0) {
             Serial.println(F("Sent with success"));
+            digitalWrite(BUILTIN_LED, HIGH);
+            delay(100);
+            digitalWrite(BUILTIN_LED, LOW );
+            delay(100);
         }
         else {
             Serial.println(F("Error sending the data"));
+            
         }
         previousTime=millis();
   }
