@@ -1,0 +1,1095 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="keywords" content="Codage. Sequence minimale. Th&eacute;orie de l'information. Codes redondants. Chemins Euleriens. Th&eacute;orie des graphes.">
+   <meta name="Template" content="C:\PROGRAM FILES\MICROSOFT OFFICE\OFFICE\html.dot">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; SunOS 5.5.1 sun4u) [Netscape]">
+   <title>Ourobo</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<center>
+<h1>
+Autour d'un probl&egrave;me de codes, de s&eacute;quences, de graphes</h1></center>
+
+<center>
+<h1>
+d'information, de redondance ...</h1></center>
+
+<p>&nbsp;
+<br>&nbsp;
+<br>
+<br>
+<p><i>J'esp&egrave;re que la lecture de ce petit papier vous donnera autant
+de plaisir que j'en ai eu &agrave; l'&eacute;crire.</i>
+<br>&nbsp;
+<br>&nbsp;
+<p><a href="#ennonce">&Eacute;nonc&eacute; du probl&egrave;me:</a>
+<p><a href="#parametres">Param&egrave;tres du probl&egrave;me.</a>
+<p><a href="#algorithme">Algorithme.</a>
+<p><a href="#TheoGr">Un peu de th&eacute;orie des graphes.</a>
+<p><a href="#applications">Applications</a>
+<p><a href="OuroboResult.html#Resultats">R&eacute;sultats.</a>
+<ul>
+<li>
+<a href="OuroboResult.html#APHA3">Pour des Alphabets de 3 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA4">Pour des Alphabets de 4 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA5">Pour des Alphabets de 5 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA6">Pour des Alphabets de 6 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA7">Pour des Alphabets de 7 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA8">Pour des Alphabets de 8 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA9">Pour des Alphabets de 9 lettres</a></li>
+
+<li>
+<a href="OuroboResult.html#ALPHA10">Pour des Alphabets de 10 lettres</a></li>
+</ul>
+
+<hr>
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+Introduction:</h1>
+Ce probl&egrave;me m'est revenu en m&eacute;moire gr&acirc;ce &agrave;
+une question sur la page "forum" du site de Pour La Science. Un article
+de cette m&ecirc;me revue (Janvier 1988) traitait de ce probl&egrave;me.
+Cet article &eacute;tait de <b>Ian Stewart</b>.
+<br>&nbsp;
+<p>J'avais trouve ce probl&egrave;me tr&egrave;s int&eacute;ressant, comme
+le sont toujours les articles de Ian Stewart, de Jean Paul Delahaye, et
+des autres intervenants r&eacute;guliers de cette revue, que ce soit &agrave;
+la rubrique jeux math&eacute;matiques ou ailleurs.
+<p>Le nom de l'article &eacute;tait rest&eacute; grav&eacute; dans ma m&eacute;moire:
+<center>
+<p><b><font size=+1>"Ouroboros, Ourotore, codage et probl&egrave;mes annexes
+non r&eacute;solus</font>."</b></center>
+
+<p><br>
+<br>
+<p>La m&eacute;thode de r&eacute;solution est tr&egrave;s largement inspir&eacute;e
+de cet article, et en gros, je n'invente rien. J'ai juste programm&eacute;
+une m&eacute;thode de r&eacute;solution et pass&eacute; un peu de temps
+&agrave; r&eacute;fl&eacute;chir &agrave; ce probl&egrave;me.
+<p>Par la suite, je ne consid&eacute;rerai pas que les s&eacute;quences
+sont "circulaires", c'est &agrave; dire que le message est p&eacute;riodique.
+Il est tr&egrave;s facile de passer d'une repr&eacute;sentation &agrave;
+l'autre, cela ne retire donc rien au probl&egrave;me g&eacute;n&eacute;ral.
+Les cha&icirc;nes construites par la suite n'ont donc qu'un lointain rapport
+avec Ouroboro, le serpent qui se mord la queue.
+<p><a NAME="ennonce"></a>
+<h2>
+Enonc&eacute; du Probl&egrave;me:</h2>
+Supposons que vous vous trouviez face &agrave; une serrure cod&eacute;e,
+comportant uniquement 2 touches "A et B", et que vous sachiez que la s&eacute;quence
+cod&eacute;e qui ouvre la porte est de longueur 2.
+<p>Vous pouvez essayer les codes : AA , AB, BA puis BB.
+<br>Mais dans le cas o&ugrave; le code est lu "au vol", la s&eacute;quence
+ABBAA couvre tous ces cas.
+<p>Les codes successivement "vus" par la serrure sont : AB, BB, BA et AA
+.
+<p>Cet exemple est tr&egrave;s simple, et se construit de fa&ccedil;on
+tr&egrave;s intuitive.
+<br>&nbsp;
+<p>Maintenant, on va tenter de r&eacute;soudre ce probl&egrave;me <b>de
+la construction de la s&eacute;quence des "lettres" qui d&eacute;crit tous
+les codes d'une certaine longueur, disons C, avec des lettres prises dans
+un alphabet de A lettres.</b>
+<p>L'exemple ci dessus : ABBAA est une s&eacute;quence solution au probl&eacute;me
+des codes de longueur 2 dans un alphabet de 2 lettres : {A,B}.
+<p>On reviendra sur l'utilit&eacute; de ces s&eacute;quences plus loin,
+ou du moins de leur utilit&eacute; suppos&eacute;e.
+<br>&nbsp;
+<p><b>L'exemple pr&eacute;c&eacute;dent &eacute;tait tr&egrave;s simple,
+en voici un, un peu plus complexe et plus joli...</b>
+<br>&nbsp;
+<p>Dans cette cha&icirc;ne de caract&egrave;res, on peut trouver l'&eacute;criture
+de <b>tous les nombres de 3 chiffres</b>. De 000 &agrave; 999.
+<p><b>000100200300400500600700800901110120130140150160170180190210222023024025026027028029031032033303403503603703803904104204304440450460470480490510520530540555056057058059061062063064065066606706806907107207307407507607770780790810820830840850860870888089091092093094095096097098099911211311411511611711811912212312412512612712812913213313413513613713813914214314414514614714814915215315415515615715815916216316416516616716816917217317417517617717817918218318418518618718818919219319419519619719819922322422522622722822923323423523623723823924324424524624724824925325425525625725825926326426526626726826927327427527627727827928328428528628728828929329429529629729829933433533633733833934434534634734834935435535635735835936436536636736836937437537637737837938438538638738838939439539639739839944544644744844945545645745845946546646746846947547647747847948548648748848949549649749849955655755855956656756856957657757857958658758858959659759859966766866967767867968768868969769869977877978878979879988989900</b>
+<p>Vous pouvez essayer, avec votre traitement de texte ou votre viewer.
+Cherchez par exemple 456, ou 999.... Ils y sont tous.
+<br>En plus, cette s&eacute;quence fait 1002 caract&egrave;res de long,
+et on va prouver par la suite qu'il n'en existe pas de plus courte. Elle
+n'est pas unique pour autant.
+<p>Vous pouvez m&ecirc;me v&eacute;rifier que chaque mot (nombre) de deux
+lettres (chiffres) est exactement pr&eacute;sent 10 fois, exception faite
+du tout premier mot. Ici 00. Vous voyez pourquoi ?.
+<p>Cette famille de suites est tr&egrave;s riche est constitue une bonne
+source de r&eacute;flexion si on s'int&eacute;resse aux probl&egrave;mes
+de codage de l'information, de redondance....
+<br>&nbsp;
+<br>&nbsp;
+<p><b>En voici un, un peu plus simple sur lequel on pourra raisonner.</b>
+<br>&nbsp;
+<p>La longueur du code (qu'on notera L), cette fois ci est de 3 lettres,
+et l'alphabet (le nombre de touches) est de deux lettres {AB}.
+<p>Il faut pour couvrir tous les cas, former tous les mots suivants:
+<p>AAA
+<br>AAB
+<br>ABA
+<br>ABB
+<br>BAA
+<br>BAB
+<br>BBA
+<br>BBB
+<p>soit 8 mots. (si on remplace A par 0 et B par 1, on a tous les nombres
+de 0 &agrave; 7 exprim&eacute;s en notation binaire).
+<p>Un majorant de la longueur minimum de la s&eacute;quence est 24=8*3,
+et correspond &agrave; la cha&icirc;ne triviale:
+<p>AAA AAB ABA ABB BAA BAB BBA BBB
+<p>On peut retravailler cette s&eacute;quence en supprimant les r&eacute;p&eacute;titions.
+Ainsi AAA AAB&nbsp; donne lorsque l'on parcourt cette s&eacute;quence :
+AAA , AAA , AAA, AAB. Explication :
+<p><b><u>AAA</u> </b>AAB
+<p>A<b><u>AA A</u></b>AB
+<p>AA<b><u>A AA</u></b>B
+<p>AAA <b><u>AAB</u></b>
+<br>&nbsp;
+<br>&nbsp;
+<p>On peut donc &eacute;conomiser ici 2 lettres en formant AAAB.
+<p>De cette fa&ccedil;on la s&eacute;quence initiale:
+<p>AAA AAB ABA ABB BAA BAB BBA BBB
+<p>peut &ecirc;tre explor&eacute;e lettre par lettre, et si la nouvelle
+lettre ne code pas un nouveau mot, on la supprime. On notera une &eacute;toile
+sur les codes rencontr&eacute;s pour la premi&egrave;re fois.
+<p>AAA&nbsp;&nbsp; *
+<br>AAA
+<br>AAA
+<br>AAB&nbsp; *
+<br>ABA&nbsp; *
+<br>BAB&nbsp; *
+<br>ABA
+<br>BAA *
+<br>AAB
+<br>ABB&nbsp; *
+<br>BBB&nbsp; *
+<br>BBA&nbsp; *
+<br>BAA
+<br>AAB
+<br>ABA
+<br>BAB
+<br>ABB
+<br>BBB
+<br>BBA
+<br>BAB
+<br>ABB
+<br>BBB
+<p>On obtient donc le message : AAABABABAABBBA, beaucoup moins redondant.
+<p>Est&nbsp; ce le plus court message ?. Si tous les mots de 3 lettres
+s'y trouvent,&nbsp; et sans aucun doublet, alors ce sera bien le plus court
+message.
+<br>La question suivante qui vient imm&eacute;diatement &agrave; l'esprit
+est : "Est il possible de construire cette plus courte s&eacute;quence,
+et si oui,&nbsp; dans tous les cas ?"
+<br>&nbsp;
+<p>dans notre exemple : AAABABABAABBBA
+<p>Une lecture attentive montre qu'au moins la s&eacute;quence ABA est
+pr&eacute;sente plusieurs fois :
+<p>AA<b>ABA</b>BABAABBBA
+<br>AAAB<b>ABAB</b>AABBBA
+<br>AAABAB<b>ABA</b>ABBBA
+<br>&nbsp;
+<p>On peut donc peut &ecirc;tre mieux faire.
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+Param&egrave;tres du probl&egrave;me&nbsp;<a NAME="parametres"></a></h2>
+R&eacute;capitulons:
+<p>On sait que si la taille du code est C, que le nombre de lettres dans
+l'alphabet est A, on peut former A**C (lisez A puissance C) mots.
+<br>Sur notre exemple :&nbsp; 2**3 = 8 mots de 3 lettres avec A et B.
+<p>On sait que la longueur du message comprenant tous les mots est inf&eacute;rieure
+&agrave; la concat&eacute;nation de tous ces mots.
+<p>Dans le meilleur des cas, chaque nouveau caract&egrave;re lu, formerait
+avec les pr&eacute;c&eacute;dents un nouveau mot. C'est ce qui se passe
+par exemple avec le message: AAABBBABAA
+<p>V&eacute;rifions. En le lisant, on obtient les mots :
+<br>AAA , AAB, ABB, BBB, BBA, BAB, ABA, BAA. 8 mots diff&eacute;rents.
+On ne peut pas faire plus court.
+<br>&nbsp;
+<br>&nbsp;
+<p><b>Avec un alphabet de A lettres, un code de longueur C :</b>
+<p><b>Le nombre de lettres minimum pour former les A**C mots est donc C+(A**C&nbsp;
+- 1)</b>
+<p>C: Taille du code pour le premier mot,
+<br>1 caract&egrave;re pour chaque nouveau mot, soit&nbsp; pour les A**C
+mots moins le premier.
+<br>&nbsp;
+<p>Le petit tableau suivant vous indique la taille qu'aurait la s&eacute;quence
+"minimale" en fonction des param&egrave;tres que sont la taille du code
+et le nombre de lettres de l'alphabet.
+<p>(Si vous etes vraiment press&eacute;s, vous pouvez, en cliquant d&egrave;s
+maintenant sur les "liens" en bleu, acc&eacute;der directement aux s&eacute;quences
+"minimales" qui se trouvent en bas de ce document... )
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER=0 CELLSPACING=0 CELLPADDING=2 WIDTH="788" >
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<center><b><font face="Arial"><font size=-1>Taille</font></font></b></center>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<center><b><font face="Arial"><font size=-1>de</font></font></b></center>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<center><b><font face="Arial"><font size=-1>L'alphabet</font></font></b></center>
+</td>
+
+<td VALIGN=TOP COLSPAN="2" WIDTH="22%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4"></td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="33"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="33"></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>2</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>3</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>4</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>5</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>6</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>7</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>8</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>9</font></font></b></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="33">
+<div align=right><b><font face="Arial"><font size=-1>10</font></font></b></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>2</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>5</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>10</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>17</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>26</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>37</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>50</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>65</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>82</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>101</font></font></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>3</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>10</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A3C3">29</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A4C3">66</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A5C3">127</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A6C3">218</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A7C3">345</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A8C3">514</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A9C3">731</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A10C3">1002</a></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<center><b><font face="Arial"><font size=-1>Taille</font></font></b></center>
+</td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>4</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>19</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A3C4">84</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A4C4">259</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A5C4">628</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A6C4">1299</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>2404</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>4099</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A9C4">6564</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A10C4">10003</a></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<center><b><font face="Arial"><font size=-1>Du</font></font></b></center>
+</td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>5</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>36</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A3C5">247</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A4C5">1028</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>3129</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>7780</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>16811</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>32772</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>59053</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>100004</font></font></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<center><b><font face="Arial"><font size=-1>Code</font></font></b></center>
+</td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>6</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>69</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><a href="OuroboResult.html#A3C6">734</a></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>4101</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>15630</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>46661</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>117654</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>262149</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>531446</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1000005</font></font></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>7</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>134</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>2193</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>16390</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>78131</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>279942</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>823549</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>2097158</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>4782975</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>10000006</font></font></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>8</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>263</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>6568</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>65543</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>390632</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1679623</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>5764808</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>16777223</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>43046728</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>100000007</font></font></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>9</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>520</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>19691</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>262152</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1953133</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>10077704</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>40353615</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>134217736</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>387420497</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1000000008</font></font></div>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4"></td>
+
+<td VALIGN=TOP WIDTH="5%" HEIGHT="4"><b><font face="Arial"><font size=-1>10</font></font></b></td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1033</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>59058</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="7%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1048585</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="8%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>9765634</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="10%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>60466185</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>282475258</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>1073741833</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="11%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>3486784410</font></font></div>
+</td>
+
+<td VALIGN=TOP WIDTH="12%" HEIGHT="4">
+<div align=right><font face="Arial"><font size=-2>10000000009</font></font></div>
+</td>
+</tr>
+</table>
+
+<br>&nbsp;
+<br>&nbsp;
+<p>Toute m&eacute;thode de construction, ou tout algorithme conduisant
+&agrave; une s&eacute;quence de <b>C+(A**C&nbsp; - 1) </b>lettres qui comprend
+tous les codes sera donc optimale (du point de vue de la longueur du message).
+<p>Voici pr&eacute;sent&eacute;e une m&eacute;thode permettant de venir
+&agrave; bout de ce probl&egrave;me.
+<br>&nbsp;
+<h2>
+Algorithme.&nbsp;<a NAME="algorithme"></a></h2>
+Soit un message :
+<p>X(0) X(1) ......&nbsp; <b>X(I-C) ...... X(I-1) X(I)</b> X(I+1) ........
+X(N)
+<p>Supposons que l'on positionne un index en I. Le dernier mot lu est donc
+:
+<p>X(I-C) ...... X(I-1) X(I)
+<p>Le prochain sera : X(I-C+1) ...... X(I-1) X(I) X(I+1).
+<p>Un terme dispara&icirc;t &agrave; gauche, et un autre appara&icirc;t
+&agrave; droite.
+<p>On constate que le nombre de choix pour chaque mouvement du curseur
+est de A : la taille de l'alphabet Dans l'exemple pr&eacute;c&egrave;dent,
+chaque nouvelle lettre &eacute;tait soit A, soit B.
+<p>On pourrait donc repr&eacute;senter chaque nouveau caract&egrave;re
+comme une branche d'un arbre. Chaque noeud de cet arbre est une "<b>racine</b>"
+de C-1 lettres (C &eacute;tant toujours le nombre de lettres dans le code).
+<br>A chaque&nbsp; racine,&nbsp; on associe une lettre (une branche) qui
+forme un mot. On prend la nouvelle racine constitu&eacute;e des derni&egrave;res
+lettres et on choisit une nouvelle branche.....
+<p>Comme on le voit, une repr&eacute;sentation possible de ce probl&egrave;me
+est de consid&eacute;rer toutes les racines (mots de C-1 lettres), et de
+construire un graphe reliant ces racines deux &agrave; deux.
+<br>&nbsp;
+<p>Pour notre exemple : C=3 et un Alphabet de 2 lettres, on a les racines
+suivantes : AA,AB,BA,BB.
+<p>soit graphiquement :
+<br>&nbsp;
+<br>&nbsp;
+<br>
+<br>
+<center>
+<p><img SRC="Ourobo3.gif" height=172 width=169></center>
+
+<p><br>
+<br>
+<br>
+<br>
+<p>La branche {A} qui relie les racines AA et AB correspond au mot AAB.
+<br>Celle qui relie AA &agrave; AA correspond au mot AAA.
+<p>Le parcourt des noeuds AA puis AA, puis AB correspond &agrave; la s&eacute;quence
+AAA,AAB.
+<br>que l'on peut repr&eacute;senter comme : {AA} A B .
+<br>{AA} &eacute;tant l'origine. Cette s&eacute;quence AAAB couvre bien
+les mots AAA et AAB.
+<br>&nbsp;
+<br>&nbsp;<b></b>
+<p><b>On se rend compte assez facilement qu'une telle construction &eacute;num&egrave;re
+bien tous les mots possibles.</b> Chaque mot est une branche, ici, elles
+sont au nombre de 8.<b></b>
+<p><b>Si il existe un chemin passant par toutes les branches, une et une
+seule fois, alors la s&eacute;quence form&eacute;e de tous ces mots (avec
+l'&eacute;limination des parties communes entre 2 mots cons&eacute;cutifs)&nbsp;
+sera bien une s&eacute;quence de longueur optimale.</b>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+Un peu de th&eacute;orie des graphes.<a NAME="TheoGr"></a></h2>
+&nbsp;
+<p>&nbsp;
+<p>Notre probl&egrave;me est donc ramen&eacute; &agrave; un probl&egrave;me
+de th&eacute;orie des graphes. Ce probl&egrave;me est celui de la recherche
+d'un chemin passant une fois et une seule par chaque arc, et se nomme le
+probl&egrave;me de la recherche d'un chemin Eulerien.
+<p>Euler a r&eacute;solu ce probl&egrave;me, nomme aussi probl&egrave;me
+des 7 ponts de Koenigsberg.
+<p>L'id&eacute;e est de compter &agrave; chaque noeud du graphe le nombre
+de branches qui y arrivent et qui en partent. Si autant d'arcs arrivent
+que d'arcs partent, il est possible de ne faire que passer par ce sommet.
+<br>Si tous les sommets connexes (reli&eacute;s par un chemin) d'un graphe
+poss&egrave;dent cette propri&eacute;t&eacute; (autant d'arcs entrants
+que sortants) , il existe n&eacute;cessairement un chemin qui passe par
+chaque arc. La d&eacute;monstration n'est pas tr&egrave;s complexe, mais
+je pr&eacute;f&egrave;re ici donner un algorithme constructif.
+<br>&nbsp;
+<p>Les ouvrages de th&eacute;orie des graphes sont souvent d'une lecture
+"ardue", car souvent, chaque nouveau concept n&eacute;cessite une quantit&eacute;
+impressionnante de termes, chacun ayant une signification tr&egrave;s pr&eacute;cise.
+Je vais ici d&eacute;finir quelques termes utiles pour une bonne compr&eacute;hension
+de l'algorithme.
+<br>&nbsp;
+<p><b>Connexit&eacute;</b>. Deux sommets A et B sont connexes s'il existe
+un chemin qui relie A &agrave; B. On dira de deux sommets qu'ils sont fortement
+connexes s'il existe un chemin reliant A &agrave; B et un chemin reliant
+B &agrave; A.
+<p><b>Composantes</b> <b>connexe</b>. Tous les sommets d'un graphe pouvant
+&ecirc;tre reli&eacute;s les uns aux autres font partie d'une m&ecirc;me
+composante connexe.
+<br>&nbsp;
+<br>&nbsp;
+<blockquote>
+<center><img SRC="Ouroboro4.gif" height=252 width=224></center>
+</blockquote>
+
+<p><br><b>Isthme</b>. On dira d'un arc reliant les sommets A et B qu'il
+est un isthme d'un graphe, si sa suppression augmente le nombre de composantes
+connexes.
+<p>Sur le sch&eacute;ma pr&eacute;c&eacute;dent, l'arc 2->3 est un isthme
+si apr&egrave;s suppression de l'arc 1->2.
+<br>Si on voulait tracer un chemin Eulerien sur ce graphe, il faudrait
+prendre garde de ne pas "isoler" le sommet 1 en empruntant l'isthme 2->3
+apr&egrave;s avoir supprim&eacute; l'arc 5->2.
+<p>Voici un exemple de chemin Eulerien, sur ce graphe. L'ordre de parcourt
+est not&eacute; sur chaque arc.
+<br>&nbsp;
+<br>&nbsp;
+<br>
+<center>
+<p><img SRC="Ourobo5.gif" height=220 width=224></center>
+
+<p><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h3>
+Algorithme de construction du Chemin Eulerien.</h3>
+&nbsp;
+<ul>
+<li>
+Tous les sommets comportent autant d'arcs entrants que sortants, le choix
+du sommet de d&eacute;part (et de celui d'arriv&eacute;e) n'est pas crucial
+pour notre exemple. (Autant d'arcs partent d'une racine que d'arc y arrivent.
+)</li>
+
+<li>
+Si un arc relie un sommet &agrave; lui m&ecirc;me, on emprunte cet arc</li>
+
+<li>
+Sinon Si un seul arc part du sommet o&ugrave; l'on se trouve, on l'emprunte</li>
+
+<li>
+Sinon on emprunte un arc qui n'est pas un isthme pour le graphe.</li>
+
+<li>
+On r&eacute;p&egrave;te ces &eacute;tapes jusqu'&agrave; &eacute;puisement
+(des arcs).</li>
+</ul>
+Le sch&eacute;ma suivant fait partie d'une famille d'exemples bien connus.
+Ici, on a not&eacute; sur le graphe le degr&eacute; (le nombre d'arcs)
+pour chaque sommet. Les arcs ne sont pas orient&eacute;s sur ce graphe.
+Cela introduit de petites modifications dans l'algorithme, mais le principe
+reste le m&ecirc;me.
+<br>Le nombre de sommets impairs, pour que ce dessin soit faisable sans
+lever le crayon, et sans repasser par le m&ecirc;me trait doit &ecirc;tre
+au plus &eacute;gal &agrave; 2. Si des sommets sont de degr&eacute;s impairs,
+ce seront des sommets de d&eacute;part et d'arriv&eacute;e.
+<p>Assez parl&eacute;.
+<br>&nbsp;
+<br>&nbsp;
+<br>
+<br>
+<center>
+<p><img SRC="Ourobo1.gif" height=209 width=543>.</center>
+
+<p><br>
+<br>
+<br>
+<br>
+<p>Sur le dessin de gauche, j'ai not&eacute; en rouge le nombre d'arcs
+connect&eacute; &agrave; chaque sommet.
+<br>Tout trac&eacute; r&eacute;alis&eacute; sans lever le crayon de ce
+dessin devra partir d'un sommet impair vers un sommet impair. Sur le dessin
+de droite, j'ai donn&eacute; un exemple o&ugrave; les arcs sont num&eacute;rot&eacute;s
+de 1 &agrave; 22.
+<br>Exercez vous, c'est facile, il faut toujours garder en bonne vue le
+sommet de fin, et prendre garde de ne pas "couper" le graphe en deux.
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p>Maintenant, plus en rapport avec notre propos, le cas : Alphabet={1,2,3}
+et longueur de code 3. Les racines (sommets) seront ici des mots de 2 lettres.
+Avec un alphabet de 3 lettres, cela repr&eacute;sente 8 mots.
+<br>&nbsp;
+<br>&nbsp;
+<br>
+<center>
+<p><img SRC="Ourobo2.gif" height=570 width=598></center>
+
+<p><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p>Sur ce sch&eacute;ma, j'ai indiqu&eacute; le d&eacute;but d'une cha&icirc;ne
+Eulerienne. Ce n'est vraiment pas tr&egrave;s difficile de ne pas passer
+par un isthme et donc de bien parcourir toutes les ar&ecirc;tes. Je vous
+conseille de tracer les ar&ecirc;tes dans une couleur, et de les repasser
+a l'aide d'une autre couleur, en notant &aacute; chaque fois la lettre
+qui est g&eacute;n&eacute;r&eacute;e.
+<br>&Eacute;ventuellement, il est possible de noter au dessus de chaque
+arc sa signification. Par exemple l'arc 11-12 correspond au mot 112.
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+Applications:&nbsp;<a NAME="applications"></a></h2>
+
+<p><br>Comme exemples d'applications, autre que l'acces &agrave; votre
+hall d'immeuble lorsque vous avez oubli&eacute; le code d'acces, on peut
+citer, ou on peut penser &agrave;:
+<br>&nbsp;
+<ul>
+<li>
+des applications de traitement du signal.</li>
+
+<li>
+des applications de positionnement.</li>
+
+<li>
+des applications de codage.</li>
+</ul>
+Je ne sais pas si de telles s&eacute;quences sont reellement utilis&eacute;es
+pour les cas que je vais mentionner maintenant. Tout ceci est purement
+speculatif. Certains des exemples que je cite ici sont encore issus de
+l'article de Pour La Science mentionn&eacute; au d&eacute;but de ce papier.
+<br>&nbsp;
+<h3>
+Traitement du signal.</h3>
+
+<p><br>Vous emettez un signal Radar, vers un objet dont vous avez d&eacute;ja
+une estimation de distance, et vous voulez calculer pr&eacute;cisement
+la distance de cet objet.
+<br>Le probl&egrave;me est que l'objet est tr&egrave;s distant, et que
+le signal en retour (l'&eacute;cho) est tr&eacute;s faible.
+<p>L'id&eacute;e est de mesurer le temps que met le signal &agrave; parcourir
+l'aller et le retour.
+<p><tt>Emission :&nbsp; 00000000000000000001000000000000000000000000000
+.....</tt>
+<br><tt>Reception:&nbsp; 00000000000000000000000000000000001000000000000
+.....</tt><tt></tt>
+<p>En mesurant le temps &eacute;coul&eacute; entre l'&eacute;mission du
+1 et sa reception, on peut calculer le temps de trajet.
+<p>Maintenant, imaginons que le signal en reception est entach&eacute;
+de bruit. Il se peut que les choses ne soient pas si nettes que sur l'exemple
+pr&eacute;c&eacute;dent. On va donc essayer de "d&eacute;caler" et de superposer
+les signaux de retour avec le signal d'emission pour detecter la valeur
+de retard la plus probable. Cette op&eacute;ration porte le nom de corr&eacute;lation
+en traitement du signal. Par exemple :
+<br>&nbsp;
+<p><tt>Emission :&nbsp; 000001110000000000000000000011100000000000000000000111000
+.....</tt>
+<br><tt>Reception:&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<p>On va retarder le signal de reception de 1 unite de temps, puis compter
+le nombre de fois ou ce signal prend les memes valeurs que le signal d'emission.
+On va ensuite repeter cette op&eacute;ration avec 2 retards, avec 3 ....
+<p>On pourrait compter le nombre de similitudes entre les signaux (emission
+et reception d&eacute;cal&eacute;e) pour detecter le retard le plus probable.
+Je n'indique ici que la s&eacute;quence la plus probable en gras.<b><tt></tt></b>
+<p><b><tt>Emission&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:&nbsp; 000001110000000000000000000011100000000000000000000111000 .....</tt></b>
+<br><tt>Reception, retard 0:&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<br><tt>Reception, retard 1:&nbsp;&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<br><tt>Reception, retard 2:&nbsp;&nbsp;&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<br><tt>Reception, retard 3:&nbsp;&nbsp;&nbsp;&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<br><tt>Reception, retard 4:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<br><tt>Reception, retard 5:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 000000001000000001010000000000001000000011100000000100000
+.....</tt>
+<br><tt>Reception, retard 6:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt>Reception, retard 7:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt>Reception, retard 8:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt>Reception, retard 9:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt>Reception, retard 10:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><b><tt>Reception, retard 11:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt></b>
+<br><tt>Reception, retard 12:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt>Reception, retard 13:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt>Reception, retard 14:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+000000001000000001010000000000001000000011100000000100000 .....</tt>
+<br><tt></tt>&nbsp;<tt></tt>
+<p>Le retard probable est ici de 11 pas de temps.
+<p>On pourrait imaginer que le signal en reception est beaucoup plus perturb&eacute;
+que dans notre exemple. Le rapport Signal/Bruit peut etre beaucoup plus
+faible. Dans ce cas, il est interessant de construire des s&eacute;quences
+d'emission qui sont elles memes tres peu corr&eacute;l&eacute;es. Donc
+des s&eacute;quences o&ugrave; la r&eacute;p&eacute;tition d'un meme motif
+n'apparait que tr&egrave;s rarement. Cela nous ram&egrave;ne &agrave; nos
+s&eacute;quences...
+<p>Ainsi, la superposition des s&eacute;quences d'emission et de reception
+apr&egrave;s d&eacute;calage ne fera apparaitre de similitudes que pour
+une valeur de d&eacute;calage.
+<br>&nbsp;
+<p>Exemple: Je prends ici des codes qui ne sont plus "binaires", mais le
+principe reste le meme. J'utilise un code sur 4 lettres avec un alphabet
+de 3 lettres.
+<p><tt>Emission&nbsp;&nbsp;&nbsp;&nbsp; : 0000100020011001200210022010102011110112012<u>1012</u>2020211021202210222211121122121222000</tt><tt></tt>
+<p><tt>Reception&nbsp;&nbsp;&nbsp; : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<u>1012</u>xx202xxxxxxxxxxxxxxxxxxxxxxxx</tt>
+<br><tt></tt>&nbsp;
+<p>meme si une seule petite portiuon du signal &eacute;mis est recu correctement,
+il est possible de savoir le retard, car cette portion de signal est present
+<b>une et une seule fois</b> dans la s&eacute;quence &eacute;mise.
+<p>Plus le signal sera clair, plus le nombre de "motifs" &agrave; localiser
+dans la s&eacute;quence initiale sera grand, et plus la probabilit&eacute;
+de correspondance entre les signaux sera grande.
+<p>Le cas pr&eacute;c&eacute;dent fonctionne avec un code de 4 lettres.
+Tout signal de 4 lettres cons&eacute;cutives permet donc de determiner
+un emplacement unique dans la s&eacute;quence de d&eacute;part. Imaginons
+que 30 quadruplets vous indiquent que le retard est de 10 pas de temps,
+et que 3 autres vous donnent un retard de 11, de 18 et de 7 pas de temps,
+il y a de fortes chances que 30 soit la bonne valeur du retard.
+<p>Comme il est possible de calculer des s&eacute;quences aussi longues
+que l'on veut, avec des tailles de codes aussi grandes que l'on veut, il
+est possible de faire de tr&egrave;s longues s&eacute;quences peu corr&eacute;l&eacute;es.
+<p>Dans le Pour la Science mentionn&eacute; ci dessus, Ian Stewart parlait
+d'une application pour la cartographie radar de Venus, je pense que dans
+ce cas, meme avec l'antenne d'Arecibo,&nbsp; le signal de reception devait
+etre bien faible....
+<br>&nbsp;
+<br>&nbsp;
+<h3>
+Positionnement:</h3>
+Supposons que l'on cherche &agrave; savoir &agrave; quel endroit se trouve
+un curseur (qui se d&eacute;place par pas entiers) sur une r&egrave;gle.
+Il suffit de lire la graduation me direz vous. Mais parfois, cette tache
+revient &agrave; des capteurs qui ne savent lire que quelques valeurs.
+Souvent 0 et 1. Pour detecter une position entre 0 et 16, il suffit de
+placer 4 yeux, chacun sur une r&egrave;gle, et de lire l'emplacement.
+<p>Par exemple :
+<p><tt>Regle 0 : 000000<b>0</b>011111111</tt>
+<br><tt>R&egrave;gle 1 : 000011<b>1</b>100001111</tt>
+<br><tt>Regle 2 : 001100<b>1</b>100110011</tt>
+<br><tt>R&egrave;gle 3 : 010101<b>0</b>101010101</tt>
+<br>&nbsp;
+<p>Ainsi, si le capteur lit ici 0110, on sait que l'on est en 6em position.
+<br>&nbsp;
+<p>Maintenant, r&eacute;aliser 4 r&egrave;gles gradu&eacute;es, c'est difficile.
+On pourrait souhaiter placer les 4 yeux sur la meme r&egrave;gle. Les yeux
+liraient cette fois ci 4 valeurs cons&eacute;cutives.
+<br>Le probl&egrave;me est que ces 4 valeurs cons&eacute;cutives doivent
+indiquer sans ambiguit&eacute; une seule position. Cela ressemble fort
+&agrave; notre probl&egrave;me.
+<p>Un autre probl&egrave;me se pose, la r&egrave;gle (unique) ainsi grav&eacute;e
+doit avoir une pr&eacute;cision 4 fois sup&eacute;rieure &agrave; nos 4
+r&egrave;gles de base. Et on ne sait faire que 2 fois plus pr&eacute;cis.
+Qu'&agrave; cela ne tienne. On va positionner 2 r&egrave;gles et utiliser
+un code sur 2 lettres.
+<p>Explications : Il faut coder 16 positions avec un alphabet de 4 lettres.
+<p>Par exemple : 00112210203233130&nbsp;&nbsp; soit 17 lettres.
+<p>0 signifiera ici 0 sur la r&egrave;gle 0&nbsp; et&nbsp; 0 sur la r&egrave;gle
+1 ....&nbsp;&nbsp; 3 sera 1 sur la r&egrave;gle 0 et 1 sur la r&egrave;gle
+1.
+<br>&nbsp;
+<p>On a donc les 2 r&egrave;gles suivantes, chacune avec ses 2 yeux.
+<br>&nbsp;
+<p><tt>Code :&nbsp;&nbsp;&nbsp; 001122<b>10</b>203233130</tt><tt></tt>
+<p><tt>R&egrave;gle 0 : 000011<b>00</b>101111010</tt>
+<br><tt>R&egrave;gle 1 : 001100<b>10</b>001011111</tt>
+<p>La lecture du code 00 sur la regle 0 et de 10 sur la r&egrave;gle 1
+revient &agrave; la lecture du code 10 dans la s&eacute;quence. Ce code
+ne parait qu'une seule fois dans la s&eacute;quence, sa position est donc
+unique, et fix&eacute;e une fois pour toute.
+<br>Informatiquement parlant, il faudrait stocker la position de chaque
+code.
+<p>Le traitement est un peu plus complexe qu'avec 4 r&egrave;gles, mais
+l'&eacute;conomie mat&eacute;rielle est importante.
+<p><i>(Si quelqu'un arrive ici et a d&eacute;j&agrave; vu ce proc&eacute;d&eacute;
+utilis&eacute; quelque part, j'aimerais bien le savoir. )</i>
+<br><i>(email : laurent.buchard@wanadoo.fr )</i>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p>Enfin, je pense que ces s&eacute;quences peuvent avoir des applications
+diverses et vari&eacute;es en codage, en stockage, ne serait ce que pour
+g&eacute;n&eacute;rer des "motifs" pour des tests.
+<p>Ecrivez moi si des id&eacute;es vous viennent....
+<p>laurent.buchard@wanadoo.fr
+<br>&nbsp;
+<p><a href="http://perso.wanadoo.fr/laurent.buchard/index.html">et n'hesitez
+pas &agrave; visiter ma page consacr&egrave;e au billard francais :</a>
+<br><a href="http://perso.wanadoo.fr/laurent.buchard/index.html">http://perso.wanadoo.fr/laurent.buchard/index.html</a>
+<br>&nbsp;
+<p>&nbsp; Laurent Buchard. (Fevrier 2000).
+</body>
+</html>
