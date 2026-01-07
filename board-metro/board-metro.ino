@@ -33,7 +33,7 @@ int yPos = 1;
 // ESP_SSD1306 display(OLED_RESET); // FOR I2C
 
 char ssid[] = "NUMERICABLE-63";       // your network SSID (name)
-char password[] = "camille01";  // your network key
+char password[] = "xxx";  // your network key
 
 //Add a SSL client
 WiFiClientSecure client;
