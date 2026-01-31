@@ -1,4 +1,10 @@
-Driver VL53L0X
+Driver VL53L0X ; buzzer sur broche 3 en attendant d'avoir un ampli ; il est très petit avec un esp32C3 
+
+<img width="410" height="378" alt="image" src="https://github.com/user-attachments/assets/f758d641-3ea3-4312-8c44-82722fd4bbe0" />
+
+
+
+
 
 1) Initialisation
 
@@ -53,4 +59,5 @@ ou
   la lecture d'une mesure (readRangeSingleMillimeters ou readRangeContinuousMillimeters) 
   reset l'interruption
 - Pin XSHUT : état 1 (PULL-UP) en fonctionnement normal. Le passage à 0
+
   met le composant en mode Shutdown.
