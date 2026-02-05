@@ -2,9 +2,9 @@ Driver VL53L0X ; buzzer sur broche 3 en attendant d'avoir un ampli ; il est trè
 
 <img width="410" height="378" alt="image" src="https://github.com/user-attachments/assets/f758d641-3ea3-4312-8c44-82722fd4bbe0" />
 
+avec un ampli PAM8403
 
-
-
+<img width="331" height="412" alt="image" src="https://github.com/user-attachments/assets/b92e0a60-449e-47cc-8d33-3a3af83e8cf0" />
 
 1) Initialisation
 
@@ -61,3 +61,4 @@ ou
 - Pin XSHUT : état 1 (PULL-UP) en fonctionnement normal. Le passage à 0
 
   met le composant en mode Shutdown.
+
