@@ -2,11 +2,7 @@
 
 <img width="249" height="328" alt="image" src="https://github.com/user-attachments/assets/29a3d41a-9778-4663-8314-1f28cf3a3e3c" />
 
-Pour comprendre le fonctionnement, voici un montage avec 2 composants esp32 et un lecteur PCM5100 soudé sur un connecteur femelle
-
-<img width="644" height="554" alt="image" src="https://github.com/user-attachments/assets/bfb2782a-65ba-4758-abd0-3cf22bb7e120" />
-
-le montage est réalisé en montant mal <> femelle
+Pour comprendre le fonctionnement, voici un montage avec 2 composants esp32 et un lecteur PCM5100 soudé sur un connecteur femelle ; le montage est réalisé en reliant mal <> femelle
 
 <img width="310" height="314" alt="image" src="https://github.com/user-attachments/assets/35eb8d4b-0b39-405d-8306-2b49f69c2e07" />
 
