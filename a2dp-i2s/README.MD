@@ -1,7 +1,3 @@
-# Test complet CROUS
-
-https://github.com/arnaudrco/CROUS-micro-python/blob/main/inmp-rms/README.MD
-
 # Réception bluetooth avec esp32
 
 <img width="249" height="328" alt="image" src="https://github.com/user-attachments/assets/29a3d41a-9778-4663-8314-1f28cf3a3e3c" />
@@ -20,3 +16,6 @@ ESP Pin	I2S Signal	PCM5102 Pin
 * GPIO2	DATA	DIN
 * GPIO4	BCK	BCK
 
+# Test complet CROUS
+
+LIRE https://github.com/arnaudrco/CROUS-micro-python/blob/main/inmp-rms/README.MD
