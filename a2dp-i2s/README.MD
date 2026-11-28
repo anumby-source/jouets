@@ -1,3 +1,6 @@
+# Test complet CROUS
+
+https://github.com/arnaudrco/CROUS-micro-python/blob/main/inmp-rms/README.MD
 
 # Réception bluetooth avec esp32
 
